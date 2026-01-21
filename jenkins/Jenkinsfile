@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    tools {
+        maven 'mvn' // Use the name you defined in Global Tool Configuration
+    }
     options {
         skipStagesAfterUnstable()
     }
