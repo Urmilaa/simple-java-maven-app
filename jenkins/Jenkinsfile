@@ -15,7 +15,11 @@ pipeline {
             }
         }
         stage('Test') {
-            timeout(time: 5, unit: 'SECONDS') {
+            options {
+                
+            timeout(time: 5, unit: 'SECONDS')
+                
+            }
             steps {
                 sh 'mvn test'
             }
@@ -24,8 +28,6 @@ pipeline {
                     junit 'target/surefire-reports/*.xml'
                 }
             }
-            
-        }
             
         }
         stage('Deliver') { 
