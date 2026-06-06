@@ -3,11 +3,10 @@ pipeline {
     tools {
         maven 'jenkins-maven' // Use the name you defined in Global Tool Configuration
     }
-    options {
-            timeout(time: 30, unit: 'SECONDS') 
-            }    
+     
     options {
         skipStagesAfterUnstable()
+        timeout(time: 30, unit: 'SECONDS') 
     }
     stages {
         stage('Build') {
