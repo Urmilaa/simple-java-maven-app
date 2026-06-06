@@ -4,6 +4,9 @@ pipeline {
         maven 'jenkins-maven' // Use the name you defined in Global Tool Configuration
     }
     options {
+            timeout(time: 30, unit: 'SECONDS') 
+            }    
+    options {
         skipStagesAfterUnstable()
     }
     stages {
@@ -15,9 +18,7 @@ pipeline {
             }
         }
         stage('Test') {
-            options {
-            timeout(time: 1, unit: 'SECONDS') 
-            }    
+            
             steps {
                 sh 'mvn test'
             }
