@@ -9,9 +9,9 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                
+                timout(time: 5, unit: 'SECONDS') {
                 sh 'mvn -B -DskipTests clean package'
-               
+                }
             }
         }
         stage('Test') {
