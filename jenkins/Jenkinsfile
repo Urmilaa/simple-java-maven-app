@@ -6,7 +6,7 @@ pipeline {
      
     options {
         skipStagesAfterUnstable()
-        timeout(time: 15, unit: 'SECONDS') 
+        timeout(time: 5, unit: 'SECONDS') 
     }
     stages {
         stage('Build') {
