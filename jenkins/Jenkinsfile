@@ -6,13 +6,15 @@ pipeline {
      
     options {
         skipStagesAfterUnstable()
-        timeout(time: 5, unit: 'SECONDS') 
+        
     }
     stages {
         stage('Build') {
             steps {
-                
+                timeout(time: 5, unit: 'SECONDS')
+                {
                 sh 'mvn -B -DskipTests clean package'
+                }    
                 
             }
         }
