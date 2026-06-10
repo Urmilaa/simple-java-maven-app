@@ -1,6 +1,6 @@
 pipeline {
-    node {
-        agent 'MavenBuilderN'        
+    agent {
+        label 'MavenBuilderN'        
     }
     tools {
         maven 'jenkins-maven' // Use the name you defined in Global Tool Configuration
