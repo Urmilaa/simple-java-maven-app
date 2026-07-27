@@ -1,42 +1,66 @@
 pipeline {
-    agent {
-        label 'MavenBuilder1'        
-    }
+    agent any
+
     tools {
-        maven 'jenkins-maven' // Use the name you defined in Global Tool Configuration
+        maven "jenkins-maven"
     }
-     
-    options {
-        skipStagesAfterUnstable()
-        
-    }
+
     stages {
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                retry(3)
-                {
-                sh 'mvn -B -DskipTests clean package'
-                }    
-                
+                git branch: 'main',
+                    url: 'https://github.com/jenkins-docs/simple-java-maven-app.git'
             }
         }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean package -DskipTests'
+            }
+        }
+
         stage('Test') {
-            
             steps {
                 sh 'mvn test'
             }
             post {
                 always {
-                    junit 'target/surefire-reports/*.xml'
+                    junit '**/target/surefire-reports/TEST-*.xml'
                 }
             }
-             
-            
         }
-        stage('Deliver') { 
+
+        stage('Approval') {
             steps {
-                sh './jenkins/scripts/deliver.sh' 
+                input message: 'Approve deployment to PRODUCTION?',
+                      ok: 'Deploy',
+                      submitter: 'admin'
             }
+        }
+
+        stage('Deploy') {
+            steps {
+                retry(2) {
+                    timeout(time: 180, unit: 'SECONDS') {
+                        sh 'chmod +x ./jenkins/scripts/deliver.sh'
+                        sh './jenkins/scripts/deliver.sh'
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        failure {
+            echo 'Failure!'
+            mail to: 'demo16devops@gmail.com',
+                 subject: "FAILED: ${env.JOB_NAME} - BUILD #${env.BUILD_NUMBER}",
+                 body: "Job ${env.JOB_NAME} (${env.BUILD_URL}) FAILED."
+        }
+
+        success {
+            echo 'BUILD and Test stages successful!'
+            archiveArtifacts artifacts: '**/target/*.jar', onlyIfSuccessful: true
         }
     }
 }
