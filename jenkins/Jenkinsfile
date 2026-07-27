@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'master',
-                    url: 'https://github.com/jenkins-docs/simple-java-maven-app.git'
+                    url: 'https://github.com/Urmilaa/simple-java-maven-app.git'
             }
         }
 
