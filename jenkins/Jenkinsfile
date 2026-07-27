@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'MavenBuilderN'        
+        label 'MavenBuilder1'        
     }
     tools {
         maven 'jenkins-maven' // Use the name you defined in Global Tool Configuration
@@ -15,7 +15,7 @@ pipeline {
             steps {
                 retry(3)
                 {
-                sh 'mvn -B -DskipTests clean packag'
+                sh 'mvn -B -DskipTests clean package'
                 }    
                 
             }
