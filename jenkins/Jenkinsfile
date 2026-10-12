@@ -15,7 +15,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                sh 'mvn clean packagee -DskipTests'
             }
         }
 
@@ -53,7 +53,7 @@ pipeline {
     post {
         failure {
             echo 'Failure!'
-            mail to: 'demo16devops@gmail.com',
+            mail to: 'aws.devops.training01@gmail.com',
                  subject: "FAILED: ${env.JOB_NAME} - BUILD #${env.BUILD_NUMBER}",
                  body: "Job ${env.JOB_NAME} (${env.BUILD_URL}) FAILED."
         }
